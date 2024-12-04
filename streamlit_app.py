@@ -49,31 +49,19 @@ def tambah_ke_keranjang(keranjang):
         else:
             st.error("Yahh Stok nya habis nih.")
 
-# Fungsi untuk menampilkan keranjang
-def tampilkan_keranjang(keranjang):
-    st.header("Keranjang Belanja")
+st.markdown("## Keranjang Belanja")
     if keranjang:
-        total_harga = 0
         for item in keranjang:
             st.write(f"{item['Jumlah']} x {item['Nama']} - Rp {item['Harga'] * item['Jumlah']}")
-            total_harga += item['Harga'] * item['Jumlah']
-        st.write(f"Total Harga: Rp {total_harga}")
+        st.markdown("### Total Harga")
+        st.write(f"Rp {total_harga:,}")
     else:
-        st.write("Keranjang anda masih kosong nihh.")
+        st.write("Keranjang Anda masih kosong.")
 
-# Fungsi utama
-def main():
-     if tampilkan_akun():
-        keranjang = []
-
-        while True:
-            tampilkan_baju()
-            tambah_ke_keranjang(keranjang)
-            tampilkan_keranjang(keranjang)
-
-            if st.button("Selesai Belanja"):
-                st.success("Terima Kasih Telah Berbelanja Di Toko Baju Andalan!")
-                break
-
+    # Tombol beli
+    if st.button("Beli Sekarang"):
+        st.success("Terima kasih atas pembelian Anda!")
+else:
+    st.write("Silakan login untuk melihat katalog dan melakukan pembelian.")
 if __name__ == "__main__":
     main()
