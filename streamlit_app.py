@@ -1,13 +1,13 @@
 import streamlit as st
 import pandas as pd
+
+# Judul aplikasi
 st.title("TOKO BAJU ANAK ANDALAN")
-st.write(
-    "HALO SELAMAT DATANG DI TOKO BAJU ANDALAN ! SELAMAT BERBELANJA."
-)
+st.write("HALO SELAMAT DATANG DI TOKO BAJU ANDALAN! SELAMAT BERBELANJA.")
 
 # Data awal untuk baju
 data_baju = {
-    "Nama": ["Kaos Anak Motif Bunga", "Kaos Anak Motif Dino", "Kaos Anak Motif Mobil",],
+    "Nama": ["Kaos Anak Motif Bunga", "Kaos Anak Motif Dino", "Kaos Anak Motif Mobil"],
     "Harga": [50000, 70000, 80000],
     "Stok": [6, 17, 5]
 }
@@ -49,19 +49,30 @@ def tambah_ke_keranjang(keranjang):
         else:
             st.error("Yahh Stok nya habis nih.")
 
-st.markdown("## Keranjang Belanja")
+# Fungsi untuk menampilkan keranjang belanja
+def tampilkan_keranjang(keranjang):
+    st.markdown("## Keranjang Belanja")
+    total_harga = 0
     if keranjang:
         for item in keranjang:
             st.write(f"{item['Jumlah']} x {item['Nama']} - Rp {item['Harga'] * item['Jumlah']}")
+            total_harga += item['Harga'] * item['Jumlah']
         st.markdown("### Total Harga")
         st.write(f"Rp {total_harga:,}")
     else:
         st.write("Keranjang Anda masih kosong.")
 
-    # Tombol beli
-    if st.button("Beli Sekarang"):
-        st.success("Terima kasih atas pembelian Anda!")
-else:
-    st.write("Silakan login untuk melihat katalog dan melakukan pembelian.")
+# Fungsi utama
+def main():
+    keranjang = []
+    if tampilkan_akun():
+        tampilkan_baju()
+        tambah_ke_keranjang(keranjang)
+        tampilkan_keranjang(keranjang)
+
+        # Tombol beli
+        if st.button("Beli Sekarang"):
+            st.success("Terima kasih atas pembelian Anda!")
+
 if __name__ == "__main__":
     main()
