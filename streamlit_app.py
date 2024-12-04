@@ -63,9 +63,7 @@ def tampilkan_keranjang(keranjang):
 
 # Fungsi utama
 def main():
-    st.title("Aplikasi Kasir Penjualan Baju Anak")
-    
-    if tampilkan_akun():
+     if tampilkan_akun():
         keranjang = []
 
         while True:
