@@ -1,31 +1,100 @@
 import streamlit as st
+import pandas as pd
+from streamlit_login_form import st_login_form
 
-# Buat form login
-form = st.form(key='login_form')
-username = form.text_input('Username')
-password = form.text_input('Password', type='password')
-submit = form.form_submit_button('Login')
+# Buat judul halaman
+st.title("Toko Baju Bayi")
 
-# Periksa apakah tombol login diklik
-if submit:
-    # Periksa apakah username dan password benar
-    if username == 'admin' and password == 'password':
-        st.success('Login berhasil!')
+# Buat sidebar untuk filter
+st.sidebar.header("Filter")
+kategori = st.sidebar.selectbox("Kategori", ("Semua", "Laki-laki", "Perempuan"))
+ukuran = st.sidebar.selectbox("Ukuran", ("Semua", "S", "M", "L"))
+harga_min = st.sidebar.number_input("Harga Minimum", min_value=0, max_value=1000000)
+harga_max = st.sidebar.number_input("Harga Maksimum", min_value=0, max_value=1000000)
 
-        # Tampilkan halaman toko baju setelah login berhasil
+# Muat data
+data = pd.read_csv("data_baju_bayi.csv")
+
+# Filter data sesuai dengan pilihan pengguna
+if kategori != "Semua":
+    data = data[data["kategori"] == kategori]
+if ukuran != "Semua":
+    data = data[data["ukuran"] == ukuran]
+if harga_min > 0:
+    data = data[data["harga"] >= harga_min]
+if harga_max > 0:
+    data = data[data["harga"] <= harga_max]
+
+# Buat sistem login
+username = st.session_state.get("username", None)
+if not username:
+    username, password = st_login_form(submit_button_text="Login")
+    if username and password:
+        # Validasi kredensial login
         # ...
-    else:
-        st.error('Username atau password salah!')
 
-# judul toko
-st.title("halo wndwkdnwdwnd")
+        # Simpan username ke sesi
+        st.session_state.username = username
 
-# Data awal untuk baju
-data_baju = {
-    "Nama": ["Kaos Anak Motif Bunga", "Kaos Anak Motif Dino", "Kaos Anak Motif Mobil"],
-    "Harga": [50000, 70000, 80000],
-    "Stok": [6, 17, 5]
-}
+# Tampilkan produk
+for i, row in data.iterrows():
+    # Tampilkan gambar produk
+    st.image(row["gambar_produk"], width=200)
 
-# Mengubah data menjadi DataFrame
-df_baju = pd.DataFrame(data_baju)
+# Tampilkan informasi produk
+    st.write(f"**{row['nama_produk']}**")
+    st.write(f"Rp{row['harga']}")
+
+    # Tambahkan tombol "Tambahkan ke Keranjang"
+    if st.button(f"Tambahkan ke Keranjang ({row['nama_produk']})"):
+        # Tambahkan produk ke keranjang
+        # ...
+
+        # Tampilkan pemberitahuan waktu nyata
+        st.success(f"{row['nama_produk']} telah ditambahkan ke keranjang.")
+
+# Tampilkan rekomendasi produk
+if username:
+    # Dapatkan riwayat pembelian pengguna
+    # ...
+
+    # Rekomendasikan produk berdasarkan riwayat pembelian
+    # ...
+
+    # Tampilkan rekomendasi
+    st.header("Rekomendasi Produk")
+    for produk in rekomendasi:
+        # Tampilkan gambar produk
+        st.image(produk["gambar_produk"], width=200)
+
+        # Tampilkan informasi produk
+        st.write(f"**{produk['nama_produk']}**")
+        st.write(f"Rp{produk['harga']}")
+
+        # Tambahkan tombol "Tambahkan ke Keranjang"
+        if st.button(f"Tambahkan ke Keranjang ({produk['nama_produk']})"):
+            # Tambahkan produk ke keranjang
+            # ...
+
+            # Tampilkan pemberitahuan waktu nyata
+            st.success(f"{produk['nama_produk']} telah ditambahkan ke keranjang.")
+
+# Tampilkan pelacakan pesanan
+if username:
+    # Dapatkan informasi pesanan pengguna
+    # ...
+
+    # Tampilkan informasi pesanan
+    st.header("Pelacakan Pesanan")
+    for pesanan in pesanan:
+        # Tampilkan status pesanan
+        st.write(f"Status: {pesanan['status']}")
+
+        # Tampilkan tanggal pemesanan
+        st.write(f"Tanggal Pemesanan: {pesanan['tanggal_pemesanan']}")
+
+        # Tampilkan tanggal pengiriman
+        st.write(f"Tanggal Pengiriman: {pesanan['tanggal_pengiriman']}")
+
+        # Tampilkan tombol "Lihat Detail"
+        if st.button(f"Lihat Detail ({pesanan['id']})"):
