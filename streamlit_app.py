@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 
 # Buat judul halaman
 st.title("Toko Baju Anak")
@@ -21,17 +20,20 @@ if harga_min > 0:
 if harga_max > 0:
     data = data[data["harga"] <= harga_max]
 
-# Buat sistem login
-username = st.session_state.get("username", None)
-if not username:
-    username, password = st_login_form(submit_button_text="Login")
-    if username and password:
-        # Validasi kredensial login
-        # ...
-
-        # Simpan username ke sesi
-        st.session_state.username = username
-
+# Fungsi untuk menampilkan akun pengguna
+def tampilkan_akun():
+    st.sidebar.header("Akun Pengguna")
+    username = st.sidebar.text_input("Username")
+    password = st.sidebar.text_input("Password", type='password')
+    
+    if st.sidebar.button("Login Akun"):
+        if username == "kasir1" and password == "kasir123":
+            st.sidebar.success("Selamat Login Anda Sukses!")
+            return True
+        else:
+            st.sidebar.error("Username atau password anda salah.")
+    return False
+    
     # Tampilkan informasi produk
     st.write(f"*{row['nama_produk']}*")
     st.write(f"Rp{row['harga']}")
