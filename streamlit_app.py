@@ -19,3 +19,13 @@ if submit:
 
 # judul toko
 st.title("halo wndwkdnwdwnd")
+
+# Data awal untuk baju
+data_baju = {
+    "Nama": ["Kaos Anak Motif Bunga", "Kaos Anak Motif Dino", "Kaos Anak Motif Mobil"],
+    "Harga": [50000, 70000, 80000],
+    "Stok": [6, 17, 5]
+}
+
+# Mengubah data menjadi DataFrame
+df_baju = pd.DataFrame(data_baju)
