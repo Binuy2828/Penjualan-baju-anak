@@ -15,19 +15,23 @@ data_baju = {
 # Mengubah data menjadi DataFrame
 df_baju = pd.DataFrame(data_baju)
 
-# Fungsi untuk menampilkan akun pengguna
-def tampilkan_akun():
-    st.sidebar.header("Akun Pengguna")
-    username = st.sidebar.text_input("Username")
-    password = st.sidebar.text_input("Password", type='password')
-    
-    if st.sidebar.button("Login Akun"):
-        if username == "kasir1" and password == "kasir123":
-            st.sidebar.success("Selamat Login Anda Sukses!")
-            return True
-        else:
-            st.sidebar.error("Username atau password anda salah.")
-    return False
+# Buat form login
+form = st.form(key='login_form')
+username = form.text_input('Username')
+password = form.text_input('Password', type='password')
+submit = form.form_submit_button('Login')
+
+# Periksa apakah tombol login diklik
+if submit:
+    # Periksa apakah username dan password benar
+    if username == 'admin' and password == 'password':
+        st.success('Login berhasil!')
+
+        # Tampilkan halaman toko baju setelah login berhasil
+        # ...
+    else:
+        st.error('Username atau password salah!')
+
 
 # Fungsi untuk menampilkan daftar baju
 def tampilkan_baju():
