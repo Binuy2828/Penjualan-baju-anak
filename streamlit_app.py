@@ -91,4 +91,4 @@ st.write("- *Bagaimana cara mengembalikan produk?*")
 
 # Tampilkan dukungan pelanggan langsung
 st.write("*Dukungan Pelanggan Langsung*")
-st.write("Jika Anda memiliki pertanyaan atau butuh bantuan, silakan hubungi kami melal
+st.write("Jika Anda memiliki pertanyaan atau butuh bantuan, silakan hubungi kami melalui")
